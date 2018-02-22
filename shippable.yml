@@ -1,0 +1,60 @@
+
+language: php
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+
+build:
+  pre_ci_boot:
+    image_name: trriplejay/u16phpall
+    image_tag: master
+  ci:
+    - pushd $MYPHPTESTREPO_STATE
+  on_success:
+    - echo "works"
+  on_failure:
+    - echo "not good"
+
+
+resources:
+  - name: myPHPTestRepo
+    type: gitRepo
+    integration: github
+    versionTemplate:
+      sourceName: trriplejay/shippable_php_test
+      branch: master
+
+jobs:
+  - name: myGoTestRunSh
+    type: runSh
+    allowPublicAccess: true
+    steps:
+      - IN: myPHPTestRepo
+      - TASK:
+          name: TestPHP56
+          runtime:
+            options:
+              imageName: trriplejay/u16phpall
+              imageTag: master
+          script:
+            - printenv
+            - docker images
+            - pushd $MYPHPTESTREPO_STATE
+      - TASK:
+          name: TestPHP70
+          runtime:
+            options:
+              imageName: trriplejay/u16phpall
+              imageTag: master
+          script:
+            - pushd $MYPHPTESTREPO_STATE
+
+      - TASK:
+          name: TestPHP71
+          runtime:
+            options:
+              imageName: trriplejay/u16phpall
+              imageTag: master
+          script:
+            - pushd $MYPHPTESTREPO_STATE
