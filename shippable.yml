@@ -26,7 +26,7 @@ resources:
       branch: master
 
 jobs:
-  - name: myGoTestRunSh
+  - name: myPHPTestRunSh
     type: runSh
     allowPublicAccess: true
     steps:
